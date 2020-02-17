@@ -3,10 +3,11 @@ package by.pankov.hes_test_demo.repository;
 import by.pankov.hes_test_demo.model.Status;
 import by.pankov.hes_test_demo.model.entity.UserAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
+public interface UserAccountRepository extends JpaRepository<UserAccount, Long>, PagingAndSortingRepository<UserAccount, Long> {
 
     UserAccount findByUserName(String name);
 

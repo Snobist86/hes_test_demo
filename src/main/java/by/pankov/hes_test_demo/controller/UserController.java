@@ -7,6 +7,9 @@ import by.pankov.hes_test_demo.model.dto.UpdateUserAccountDto;
 import by.pankov.hes_test_demo.model.entity.UserAccount;
 import by.pankov.hes_test_demo.service.impl.UserAccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -48,9 +50,12 @@ public class UserController {
     }
 
     @GetMapping
-    public String showListPage(Model model) {
-        List<UserAccount> accounts = accountService.findAll();
-        model.addAttribute("accounts", accounts);
+    public String showListPage(Model model,
+                               @PageableDefault(size = 5) Pageable pageable) {
+
+        Page<UserAccount> accountPage = accountService.findAllPagination(pageable);
+        model.addAttribute("accountPage", accountPage);
+
         return "List";
     }
 

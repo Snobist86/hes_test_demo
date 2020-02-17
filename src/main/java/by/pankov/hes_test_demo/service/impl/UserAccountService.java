@@ -4,6 +4,8 @@ import by.pankov.hes_test_demo.model.Status;
 import by.pankov.hes_test_demo.model.dto.CreateUserAccountDto;
 import by.pankov.hes_test_demo.model.dto.UpdateUserAccountDto;
 import by.pankov.hes_test_demo.model.entity.UserAccount;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -23,4 +25,6 @@ public interface UserAccountService extends UserDetailsService {
     UserAccount findById(String id);
 
     List<UserAccount> findAll();
+
+    Page<UserAccount> findAllPagination(Pageable pageable);
 }

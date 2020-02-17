@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<style>
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 5px 5px;
+        text-decoration: none;
+    }
+
+    .pagination a.active {
+        background-color: gray;
+        color: white;
+        border-radius: 2px;
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <title>List</title>
@@ -20,9 +38,33 @@
 </div>
 <div>
 
-</div>
-<div th:each="account : ${accounts}">
-    <a th:href="@{'/user/'+${account.getId()}}" th:method="get" th:utext="${account.getUserName()}"></a>
+    <table border="1">
+        <tbody>
+        <tr  th:each="account, iStat : ${accountPage.content}"
+             th:style="${iStat.odd}? 'font-weight: bold;'"
+             th:alt-title="${iStat.even}? 'even' : 'odd'">
+               <td>
+                   <a th:href="@{'/user/'+${account.getId()}}" th:method="get" th:utext="${account.getUserName()}"></a>
+               </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination-div">
+    <span th:if="${accountPage.hasPrevious()}">
+        <a th:href="@{/user(page=${accountPage.number - 1},size=${accountPage.size})}">Previous</a>
+    </span>
+        <th:block th:each="i: ${#numbers.sequence(0, accountPage.totalPages - 1)}">
+            <span th:if="${accountPage.number == i}" class="selected">[[${i}+1]]</span>
+            <span th:unless="${accountPage.number == i}">
+             <a th:href="@{/user(page=${i},size=${accountPage.size})}">[[${i}+1]]</a>
+        </span>
+        </th:block>
+        <span th:if="${accountPage.hasNext()}">
+        <a th:href="@{/user(page=${accountPage.number + 1},size=${accountPage.size})}">Next</a>
+    </span>
+    </div>
+
 </div>
 </body>
 </html>

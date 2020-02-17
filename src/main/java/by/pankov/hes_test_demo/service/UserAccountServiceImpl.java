@@ -8,6 +8,8 @@ import by.pankov.hes_test_demo.model.entity.UserAccount;
 import by.pankov.hes_test_demo.repository.UserAccountRepository;
 import by.pankov.hes_test_demo.service.impl.UserAccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -104,6 +106,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public List<UserAccount> findAll() {
-       return accountRepository.findAll();
+        return accountRepository.findAll();
+    }
+
+    @Override
+    public Page<UserAccount> findAllPagination(Pageable pageable){
+        return accountRepository.findAll(pageable);
     }
 }
