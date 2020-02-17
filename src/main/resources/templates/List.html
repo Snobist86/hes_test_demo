@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>List</title>
+</head>
+<body>
+<th:block th:include="_menu"></th:block>
+
+<div th:if="${param.changeSuccess}">
+    <div class="alert alert-info">Changes are saved successfully!</div>
+</div>
+
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    <span>Do you want to create a new user?</span>
+    <form class="button" th:action="@{/user/new}" method="get">
+        <input type="submit" value="Yes, of course!"/>
+    </form>
+</div>
+<div>
+
+</div>
+<div th:each="account : ${accounts}">
+    <a th:href="@{'/user/'+${account.getId()}}" th:method="get" th:utext="${account.getUserName()}"></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<th:block th:include="_menu"></th:block>
+<tr class="container">
+
+    <div th:if="${param.success}">
+        <div class="alert alert-info">New user registration was successful.</div>
+    </div>
+
+    <h1>Registration</h1>
+    <form th:action="@{/user/new}" th:object="${userAccount}" method="post">
+
+        <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
+           th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
+
+        <table>
+            <tr>
+                <td>user name: </td>
+                <td><input type="text" th:field="*{userName}"/></td>
+                <td th:each="error: ${#fields.errors('userName')}"
+                    th:text="${error}">Validation error</td>
+            </tr>
+            <tr>
+                <td>password: </td>
+                <td><input type="password" th:field="*{password}"/></td>
+                <td th:each="error: ${#fields.errors('password')}"
+                    th:text="${error}">Validation error</td>
+            </tr>
+            <tr>
+                <td>first name:</td>
+                <td><input type="text" th:field="*{firstName}"/></td>
+                <td th:each="error: ${#fields.errors('firstName')}"
+                    th:text="${error}">Validation error</td>
+            </tr>
+            <tr>
+                <td>last name:</td>
+                <td><input type="text" th:field="*{lastName}"/></td>
+                <td th:each="error: ${#fields.errors('lastName')}"
+                    th:text="${error}">Validation error</td>
+            </tr>
+            <tr>
+                <td>role: </td>
+                <td>
+                    <select name="Role">
+                        <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>status: </td>
+                <td>
+                    <select name="Status">
+                        <option th:each="status : ${allStatuses}" th:value="${status}" th:text="${status}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Register</button>
+                </td>
+            </tr>
+        </table>
+
+
+    </form>
+</div>
+</body>
+</html>

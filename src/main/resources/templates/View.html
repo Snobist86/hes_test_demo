@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>View</title>
+</head>
+<body>
+<th:block th:include="_menu"></th:block>
+<div th:if="${param.success}">
+    <div class="alert alert-info">Status is changed successfully!</div>
+    <br>
+</div>
+
+<div>
+    user name: <label th:text="${account.getUserName()}"></label><br>
+    <label>first name: </label><label th:text="${account.getFirstName()}"></label><br>
+    <label>last name: </label><label th:text="${account.getLastName()}"></label><br>
+    <label>role: </label><label th:text="${account.getRole()}"></label><br>
+    <label>status: </label><label th:text="${account.getStatus()}"></label><br>
+    <label>created at </label><label th:text="${account.getCreatedAt()}"></label><br>
+</div>
+
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    <div>
+        <form class="button" th:action="@{'/user/' + ${account.getId()} + '/edit'}" method="get">
+            <input type="submit" value="Edit"/>
+        </form>
+    </div>
+    <div th:if="${account.getStatus()} eq ${active}">
+        <form class="button" th:action="@{/user/lock/}" method="post">
+            <input type="hidden" th:name="id" th:value="${account.getId()}">
+            <input type="hidden" th:name="status" th:value="${inactive}">
+            <input type="submit" value="Lock"/>
+        </form>
+    </div>
+    <div th:if="${account.getStatus()} eq ${inactive}">
+        <form class="button" th:action="@{/user/lock/}" method="post">
+            <input type="hidden" th:name="id" th:value="${account.getId()}">
+            <input type="hidden" th:name="status" th:value="${active}">
+            <input type="submit" value="Unlock"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
+    <table>
+        <tr>
+            <td>
+                <div th:if="${#request.userPrincipal != null}">
+                    <form th:action="@{/user}" method="get">
+                        <input type="submit" value="List"/>
+                    </form>
+                </div>
+            </td>
+            <td>|</td>
+            <td>
+                <div th:if="${#request.userPrincipal != null}">
+                    <form th:action="@{/logout}" method="post">
+                        <input type="submit" value="Logout"/>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
