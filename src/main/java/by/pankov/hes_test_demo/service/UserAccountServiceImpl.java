@@ -1,6 +1,7 @@
 package by.pankov.hes_test_demo.service;
 
 import by.pankov.hes_test_demo.exception.ResourceNotFoundException;
+import by.pankov.hes_test_demo.model.Role;
 import by.pankov.hes_test_demo.model.Status;
 import by.pankov.hes_test_demo.model.dto.CreateUserAccountDto;
 import by.pankov.hes_test_demo.model.dto.UpdateUserAccountDto;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +33,20 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository accountRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
+
+    @PostConstruct
+    private void createFirstUser(){
+        UserAccount userAccount = UserAccount.builder()
+                .userName("first_user")
+                .password(bCryptPasswordEncoder.encode("123qwerty"))
+                .firstName("first")
+                .lastName("user")
+                .status(Status.ACTIVE)
+                .role(Role.ADMIN)
+                .createdAt(LocalDateTime.now())
+                .build();
+        save(userAccount);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
